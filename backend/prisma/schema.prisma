@@ -1,0 +1,238 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Role {
+  id        String   @id @default(uuid())
+  name      RoleName @unique
+  createdAt DateTime @default(now())
+  users     User[]
+}
+
+model User {
+  id             String          @id @default(uuid())
+  name           String
+  email          String          @unique
+  phone          String          @unique
+  passwordHash   String
+  status         UserStatus      @default(ACTIVE)
+
+  busy           Boolean         @default(false)
+
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  roleId         String
+
+  addresses      Address[]
+  driverLocation DriverLocation?
+  driverProfile  DriverProfile?
+  refreshTokens  RefreshToken[]
+
+  driverTrips    Trip[]          @relation("DriverTrips")
+  passengerTrips Trip[]          @relation("PassengerTrips")
+
+  role           Role            @relation(fields: [roleId], references: [id])
+}
+
+model Address {
+  id         String   @id @default(uuid())
+  street     String
+  number     String
+  colony     String
+  city       String
+  state      String
+  postalCode String
+  latitude   Float?
+  longitude  Float?
+  createdAt  DateTime @default(now())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model DriverProfile {
+  id        String           @id @default(uuid())
+  status    DriverStatus     @default(PENDING)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  userId    String           @unique
+  documents DriverDocument[]
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vehicles  Vehicle[]
+}
+
+model DriverDocument {
+  id         String         @id @default(uuid())
+  type       DocumentType
+  fileUrl    String
+  status     DocumentStatus @default(PENDING)
+  uploadedAt DateTime       @default(now())
+  reviewedAt DateTime?
+  comment    String?
+  driverId   String
+  driver     DriverProfile  @relation(fields: [driverId], references: [id], onDelete: Cascade)
+}
+
+model Vehicle {
+  id        String        @id @default(uuid())
+  type      VehicleType
+  brand     String
+  model     String
+  year      Int
+  plate     String        @unique
+  color     String?
+  createdAt DateTime      @default(now())
+  driverId  String
+  driver    DriverProfile @relation(fields: [driverId], references: [id], onDelete: Cascade)
+}
+
+model DriverLocation {
+  id        String   @id @default(uuid())
+  latitude  Float
+  longitude Float
+  online    Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+  driverId  String   @unique
+  busy      Boolean  @default(false)
+  driver    User     @relation(fields: [driverId], references: [id], onDelete: Cascade)
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Trip {
+  id String @id @default(uuid())
+
+  status TripStatus @default(PENDING)
+
+  origin String
+
+  destination String
+
+  passengerId String
+
+  driverId String?
+
+  cancelledBy String?
+
+  cancelReason String?
+
+  cancelledAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  destinationLatitude Float?
+
+  destinationLongitude Float?
+
+  originLatitude Float?
+
+  originLongitude Float?
+
+  driver User? @relation("DriverTrips", fields: [driverId], references: [id])
+
+  passenger User @relation("PassengerTrips", fields: [passengerId], references: [id])
+
+  locations TripLocation[]
+
+  // NUEVO
+  statusHistory TripStatusHistory[]
+
+  
+}
+
+model TripStatusHistory {
+  id String @id @default(uuid())
+
+  tripId String
+
+  status TripStatus
+
+  description String?
+
+  driverId String?
+
+  createdAt DateTime @default(now())
+
+  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@index([tripId])
+}
+
+model TripLocation {
+  id        String   @id @default(uuid())
+  tripId    String
+  driverId  String
+  latitude  Float
+  longitude Float
+  createdAt DateTime @default(now())
+  trip      Trip     @relation(fields: [tripId], references: [id])
+}
+
+enum TripStatus {
+  PENDING
+  MATCHING
+  DRIVER_ASSIGNED
+  DRIVER_ACCEPTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  EXPIRED
+  DRIVER_ARRIVED
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+  PENDING
+}
+
+enum RoleName {
+  CLIENT
+  DRIVER
+  STORE
+  ADMIN
+}
+
+enum DriverStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum DocumentType {
+  IDENTITY
+  DRIVER_LICENSE
+  VEHICLE_CARD
+  INSURANCE
+  ADDRESS_PROOF
+  VEHICLE_PHOTO
+}
+
+enum DocumentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum VehicleType {
+  MOTORCYCLE
+  CAR
+  BICYCLE
+  OTHER
+}

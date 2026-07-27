@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>NETT DRIVER SOCKET</title>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+</head>
+
+
+<body>
+
+<h2>NETT DRIVER SOCKET</h2>
+
+
+<script>
+
+
+const DRIVER_ID =
+"3383ba90-c125-42c5-b460-233ad44d7dad";
+
+
+
+const socket =
+io("http://localhost:3000");
+
+
+
+socket.on(
+"connect",
+()=>{
+
+
+console.log(
+"🟢 DRIVER CONECTADO",
+socket.id
+);
+
+
+
+socket.emit(
+"driver:online",
+{
+driverId: DRIVER_ID
+}
+);
+
+
+
+console.log(
+"🚗 DRIVER ROOM UNIDA"
+);
+
+
+
+});
+
+
+
+
+
+socket.on(
+"trip:new",
+(data)=>{
+
+
+console.log(
+"🚕 NUEVO VIAJE",
+data
+);
+
+
+});
+
+
+
+socket.on(
+"trip:accepted",
+(data)=>{
+
+
+console.log(
+"✅ VIAJE ACEPTADO",
+data
+);
+
+
+});
+
+
+
+</script>
+
+
+</body>
+
+</html>

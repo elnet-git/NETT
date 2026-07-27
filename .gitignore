@@ -1,0 +1,31 @@
+# Node
+node_modules/
+dist/
+build/
+
+# Environment
+.env
+.env.*
+
+# Logs
+logs/
+*.log
+
+# VS Code
+.vscode/
+
+# Archives
+*.zip
+
+# Prisma
+src/generated/prisma/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Prisma generated
+backend/src/generated/prisma/
+
+# Prisma backups
+backend/prisma/*backup*

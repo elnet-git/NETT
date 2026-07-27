@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>NETT Socket Test</title>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+</head>
+
+
+<body>
+
+
+<h2>NETT SOCKET TEST</h2>
+
+
+<script>
+
+
+const socket = io(
+"http://localhost:3000"
+);
+
+
+
+const passengerId =
+"a464f1c8-ab8d-4610-a77e-750a3e8592f2";
+
+
+const tripId =
+"91ac09a1-2fec-4d74-a987-515abba8da46";
+
+
+
+
+// ==========================
+// CONEXION
+// ==========================
+
+socket.on(
+
+"connect",
+
+()=>{
+
+
+console.log(
+"🟢 CONECTADO",
+socket.id
+);
+
+
+
+// unir pasajero
+
+socket.emit(
+
+"passenger:join",
+
+{
+
+passengerId
+
+}
+
+);
+
+
+console.log(
+"👤 passenger unido"
+);
+
+
+
+// unir viaje
+
+socket.emit(
+
+"trip:join",
+
+{
+
+tripId
+
+}
+
+);
+
+
+console.log(
+"🗺️ trip unido",
+tripId
+);
+
+
+
+}
+
+);
+
+
+
+
+// ==========================
+// VIAJE ASIGNADO
+// ==========================
+
+socket.on(
+
+"trip:assigned",
+
+(data)=>{
+
+
+console.log(
+
+"🚕 VIAJE ASIGNADO",
+
+data
+
+);
+
+
+}
+
+);
+
+
+
+
+// ==========================
+// ACEPTADO
+// ==========================
+
+socket.on(
+
+"trip:accepted",
+
+(data)=>{
+
+
+console.log(
+
+"✅ ACEPTADO",
+
+data
+
+);
+
+
+}
+
+);
+
+
+
+
+// ==========================
+// CONDUCTOR LLEGO
+// ==========================
+
+socket.on(
+
+"trip:driver_arrived",
+
+(data)=>{
+
+
+console.log(
+
+"📍 CONDUCTOR LLEGO",
+
+data
+
+);
+
+
+}
+
+);
+
+
+
+
+// ==========================
+// VIAJE INICIADO
+// ==========================
+
+socket.on(
+
+"trip:started",
+
+(data)=>{
+
+
+console.log(
+
+"🚦 VIAJE INICIADO",
+
+data
+
+);
+
+
+}
+
+);
+
+
+
+
+// ==========================
+// UBICACION TIEMPO REAL
+// ==========================
+
+socket.on(
+
+"driver:location",
+
+(data)=>{
+
+
+console.log(
+
+"📍 UBICACION DRIVER",
+
+data
+
+);
+
+
+}
+
+);
+
+
+
+
+// ==========================
+// COMPLETADO
+// ==========================
+
+socket.on(
+
+"trip:completed",
+
+(data)=>{
+
+
+console.log(
+
+"🏁 COMPLETADO",
+
+data
+
+);
+
+
+}
+
+);
+
+
+
+</script>
+
+
+</body>
+
+</html>

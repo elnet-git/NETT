@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NETT LIVE</title>
+</head>
+<body>
+
+<h1>🚖 NETT LIVE SYSTEM</h1>
+
+<button onclick="createTrip()">Crear viaje</button>
+
+<pre id="log">Esperando eventos...</pre>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+<script>
+const log = document.getElementById("log");
+
+// 🔥 historial tipo Uber
+const events = [];
+
+function render() {
+  log.innerText = events.join("\n\n");
+}
+
+// SOCKET
+const socket = io("http://localhost:3000");
+
+socket.on("connect", () => {
+  events.push("🟢 Conectado al sistema NETT");
+  render();
+});
+
+// LIVE EVENT
+socket.on("trip:new", (data) => {
+  events.push("🚖 NUEVO VIAJE (LIVE):\n" + JSON.stringify(data, null, 2));
+  render();
+});
+
+// HTTP
+async function createTrip() {
+  const res = await fetch("http://localhost:3000/trips", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      passengerId: "123",
+      origin: { lat: 19.4326, lng: -99.1332 },
+      destination: { lat: 19.50, lng: -99.10 }
+    })
+  });
+
+  const data = await res.json();
+
+  events.push("📦 VIAJE CREADO (HTTP):\n" + JSON.stringify(data, null, 2));
+  render();
+}
+</script>
+
+</body>
+</html>

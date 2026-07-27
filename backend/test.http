@@ -1,0 +1,122 @@
+### Registrar conductor
+
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "name": "Conductor Demo",
+  "email": "drivr@test.com",
+  "phone": "771134567",
+  "password": "13456",
+  "role": "DRIVER"
+}
+
+###
+
+### Login conductor
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "driver@test.com",
+  "password": "123456"
+}
+
+###
+
+### Actualizar ubicación
+
+POST http://localhost:3000/location/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjY2Q5MjUwOS1mOTBkLTQ5ODEtOTBlMS0yMmQ5ODhiMzNlNjEiLCJyb2xlIjoiRFJJVkVSIiwiaWF0IjoxNzgzOTk4MTU2LCJleHAiOjE3ODM5OTkwNTZ9.lqt9fLl403-9NrCm7_LafxbH8DwDrabVpZMtXrFNIko
+
+{
+  "latitude": 20.1384,
+  "longitude": -98.6692,
+  "online": true
+}
+
+###
+
+### Buscar conductores cercanos
+
+GET http://localhost:3000/location/nearby?latitude=20.1384&longitude=-98.6692&radius=5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjY2Q5MjUwOS1mOTBkLTQ5ODEtOTBlMS0yMmQ5ODhiMzNlNjEiLCJyb2xlIjoiRFJJVkVSIiwiaWF0IjoxNzgzOTk4MTU2LCJleHAiOjE3ODM5OTkwNTZ9.lqt9fLl403-9NrCm7_LafxbH8DwDrabVpZMtXrFNIko
+
+### Registrar cliente
+
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "name": "Cliente Demo",
+  "email": "cliente@test.com",
+  "phone": "7719999999",
+  "password": "123456",
+  "role": "CLIENT"
+}
+
+
+### Login cliente
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "cliente@test.com",
+  "password": "123456"
+}
+
+### Crear viaje
+
+POST http://localhost:3000/trips
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhMWJmMDNlOC0zZjkwLTQ3NmMtODFkZS0wZTA0YjFiZGI4MDUiLCJyb2xlIjoiQ0xJRU5UIiwiaWF0IjoxNzgzOTk5NDg0LCJleHAiOjE3ODQwMDAzODR9.K_-Joc28aGQaRSonXwQBFq5bZ7rzJ99MEqOk8DabaFM
+
+{
+  "origin": "Centro Zacualtipán",
+  "destination": "Hospital Regional",
+  "originLatitude": 20.1384,
+  "originLongitude": -98.6692,
+  "destinationLatitude": 20.1410,
+  "destinationLongitude": -98.6610
+}
+
+### Ver mis viajes (Conductor)
+
+GET http://localhost:3000/trips/my
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjY2Q5MjUwOS1mOTBkLTQ5ODEtOTBlMS0yMmQ5ODhiMzNlNjEiLCJyb2xlIjoiRFJJVkVSIiwiaWF0IjoxNzg0MDAwMzIyLCJleHAiOjE3ODQwMDEyMjJ9.XfMzKZeI9wJLbOj4BMjgbEW3rvd8gSaZ7fxjRRGx-Vo
+
+### Aceptar viaje
+
+POST http://localhost:3000/trips/07c0557b-d9fb-4bd3-a93f-becc90969450/accept
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjY2Q5MjUwOS1mOTBkLTQ5ODEtOTBlMS0yMmQ5ODhiMzNlNjEiLCJyb2xlIjoiRFJJVkVSIiwiaWF0IjoxNzg0MDAwMzIyLCJleHAiOjE3ODQwMDEyMjJ9.XfMzKZeI9wJLbOj4BMjgbEW3rvd8gSaZ7fxjRRGx-Vo
+
+### Conductor llegó al punto de recogida
+
+POST http://localhost:3000/trips/07c0557b-d9fb-4bd3-a93f-becc90969450/arrived
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjY2Q5MjUwOS1mOTBkLTQ5ODEtOTBlMS0yMmQ5ODhiMzNlNjEiLCJyb2xlIjoiRFJJVkVSIiwiaWF0IjoxNzg0MDAxNTQ1LCJleHAiOjE3ODQwMDI0NDV9.cmnGcVwKZlDqK10ENDX5Dk22Ms1aMTYHk17NCtsrJ_8
+
+
+
+### Iniciar viaje
+
+POST http://localhost:3000/trips/07c0557b-d9fb-4bd3-a93f-becc90969450/start
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjY2Q5MjUwOS1mOTBkLTQ5ODEtOTBlMS0yMmQ5ODhiMzNlNjEiLCJyb2xlIjoiRFJJVkVSIiwiaWF0IjoxNzg0MDAzMDIxLCJleHAiOjE3ODQwMDM5MjF9.iWzrH96eaaLK5-qf7jYNKyPlOHNoRjIlzJMprsMqam4
+
+
+### Completar viaje
+
+POST http://localhost:3000/trips/07c0557b-d9fb-4bd3-a93f-becc90969450/complete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjY2Q5MjUwOS1mOTBkLTQ5ODEtOTBlMS0yMmQ5ODhiMzNlNjEiLCJyb2xlIjoiRFJJVkVSIiwiaWF0IjoxNzg0MDAzMDIxLCJleHAiOjE3ODQwMDM5MjF9.iWzrH96eaaLK5-qf7jYNKyPlOHNoRjIlzJMprsMqam4
+
+### Cancelar viaje
+
+POST http://localhost:3000/trips/07c0557b-d9fb-4bd3-a93f-becc90969450/cancel
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjY2Q5MjUwOS1mOTBkLTQ5ODEtOTBlMS0yMmQ5ODhiMzNlNjEiLCJyb2xlIjoiRFJJVkVSIiwiaWF0IjoxNzg0MDAzMDIxLCJleHAiOjE3ODQwMDM5MjF9.iWzrH96eaaLK5-qf7jYNKyPlOHNoRjIlzJMprsMqam4
+
+### Ver todos los viajes
+
+GET http://localhost:3000/trips
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjY2Q5MjUwOS1mOTBkLTQ5ODEtOTBlMS0yMmQ5ODhiMzNlNjEiLCJyb2xlIjoiRFJJVkVSIiwiaWF0IjoxNzg0MDA0Mzg1LCJleHAiOjE3ODQwMDUyODV9.Vl-86rpYyJMtAWwpk_l_ASv6-K9mE252C0AW7GxqS4o
