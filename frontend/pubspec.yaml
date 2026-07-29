@@ -1,0 +1,66 @@
+name: frontend
+description: "NETTMI Flutter App"
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # Estado
+  flutter_riverpod: ^2.6.1
+
+  # Navegación
+  go_router: ^16.0.0
+
+  # Peticiones HTTP
+  dio: ^5.9.0
+
+  # Almacenamiento seguro
+  flutter_secure_storage: ^9.2.4
+
+  # Preferencias
+  shared_preferences: ^2.5.3
+
+  # Google Maps
+  google_maps_flutter: ^2.12.3
+
+  # GPS
+  geolocator: ^14.0.2
+
+  # Geocoding
+  geocoding: ^4.0.0
+
+  # Socket.IO
+  socket_io_client: ^3.1.2
+
+  # Fechas
+  intl: ^0.20.2
+
+  # Animaciones
+  flutter_animate: ^4.5.2
+
+  # Tipografía
+  google_fonts: ^6.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/animations/
